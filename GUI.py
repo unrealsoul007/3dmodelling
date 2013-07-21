@@ -89,49 +89,6 @@ class Application(Frame):
             root.destroy()
 
         
-        
-
-    def placemark(self,values,lat,longi,altitude): #values is a list of values to be filled in the placemark file
-        
-        f = open('First.txt','rb')
-        linesCol = f.readlines()
-        totalLength = len(linesCol)
-        f.close()
-
-        f = open('Placemark.kml','r') #reading from the previously created Placemark file
-        lines = f.readlines()
-        temp = len(lines)
-        f.close()
-        fw = open('temp.kml','w')
-    
-        '''Based on the assumption that user-defined attributes does not contain
-        Name and values[0] is always the name of the building
-        and after that are the other attributes'''
-    
-        for i in range(temp-2):
-            fw.writelines(lines[i])
-        
-        fw.writelines('<Placemark>\n\
-            <name>'+values[0]+'</name>\n\
-            <ExtendedData>')
-        for i in range(totalLength):
-            fw.writelines('<Data name="'+(linesCol[i])[:-2]+'">\n\
-                <value>'+values[i+1]+'</value>\n\
-              </Data>')
-        fw.writelines('</ExtendedData>\n\
-            <Point>\n\
-              <coordinates>'+lat+','+longi+','+altitude+'</coordinates>\n\
-                  <altitudeMode>relativeToGround</altitudeMode>\n\
-                  <extrude>1</extrude>\n\
-            </Point>\n\
-        </Placemark>\n')
-
-        fw.writelines((lines[temp-2]))
-        fw.writelines((lines[temp-1]))
-        fw.close()
-        os.remove('Placemark.kml')
-        os.rename('temp.kml','Placemark.kml')
-        
 root=Tk()
 root.title("INFORMATION")
 root.geometry("600x600")
